@@ -1,9 +1,6 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<title>
-		web-flipclock
-	</title>
 	<link rel="shortcut icon" href="./doc/favicon.ico">
 	<link rel="bookmark" href="./doc/favicon.ico">
 	<link rel="apple-touch-icon" href="./doc/favicon.ico">
@@ -34,6 +31,7 @@
 	.description{
 		color:white;
 	}
+	title { display: none; }
 	</style>
 </head>
 <body>
@@ -53,10 +51,10 @@
 	var visible = false;
 	var fullscreen = false;
 	$(document).ready(function() {
-        var hideNav = new URLSearchParams(window.location.search).get('hideNav');
-        if (hideNav === 'true') {
-            document.querySelector('.navbar').style.display = 'none'; // 假设导航条的类名为.navbar
-        }
+        // var hideNav = new URLSearchParams(window.location.search).get('hideNav');
+        // if (hideNav === 'true') {
+        //     document.querySelector('.navbar').style.display = 'none'; // 假设导航条的类名为.navbar
+        // }
 		clock = $('.clock').FlipClock({
 			clockFace: 'TwentyFourHourClock'
 		});
