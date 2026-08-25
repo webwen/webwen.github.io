@@ -1,10 +1,597 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="个人主页：个人简历、读书笔记、生活记录与个人规划。">
+    <title>Wen 的个人主页</title>
+    <style>
+        :root {
+            --ink: #242424;
+            --muted: #66645f;
+            --line: #e4dfd6;
+            --paper: #fbfaf6;
+            --surface: #ffffff;
+            --green: #2f6f5e;
+            --green-deep: #1f4d41;
+            --rose: #b35a5f;
+            --gold: #b8873b;
+            --blue: #416788;
+            --shadow: 0 18px 50px rgba(38, 35, 29, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.65;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid rgba(36, 36, 36, 0.08);
+            background: rgba(251, 250, 246, 0.92);
+            backdrop-filter: blur(18px);
+        }
+
+        .nav {
+            width: min(1120px, calc(100% - 32px));
+            min-height: 68px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: grid;
+            gap: 1px;
+            min-width: 120px;
+            font-weight: 750;
+        }
+
+        .brand span {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+        }
+
+        .menu a {
+            display: inline-flex;
+            min-height: 36px;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0 14px;
+            color: #393934;
+            font-size: 14px;
+            transition: background 160ms ease, color 160ms ease;
+        }
+
+        .menu a:hover,
+        .menu a:focus-visible {
+            color: var(--green-deep);
+            background: rgba(47, 111, 94, 0.1);
+            outline: none;
+        }
+
+        .hero {
+            min-height: min(760px, calc(100vh - 132px));
+            display: grid;
+            align-items: center;
+            padding: 48px 0 72px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .hero-inner {
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+            align-items: center;
+            gap: clamp(32px, 6vw, 82px);
+        }
+
+        .hero-copy {
+            max-width: 690px;
+        }
+
+        .eyebrow {
+            margin: 0 0 14px;
+            color: var(--green-deep);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+
+        h1 {
+            margin: 0;
+            max-width: 760px;
+            font-size: clamp(40px, 7vw, 84px);
+            line-height: 1.03;
+            letter-spacing: 0;
+        }
+
+        .lead {
+            max-width: 620px;
+            margin: 24px 0 0;
+            color: var(--muted);
+            font-size: clamp(17px, 2vw, 20px);
+        }
+
+        .quick-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 34px;
+        }
+
+        .button {
+            display: inline-flex;
+            min-height: 44px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--green);
+            border-radius: 999px;
+            padding: 0 18px;
+            font-weight: 700;
+        }
+
+        .button.primary {
+            color: #fff;
+            background: var(--green);
+        }
+
+        .button.secondary {
+            color: var(--green-deep);
+            background: transparent;
+        }
+
+        .portrait-wrap {
+            justify-self: end;
+            width: min(100%, 410px);
+        }
+
+        .portrait {
+            aspect-ratio: 3 / 4;
+            width: 100%;
+            margin: 0;
+            overflow: hidden;
+            border: 1px solid rgba(36, 36, 36, 0.12);
+            border-radius: 8px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .portrait img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        main {
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        section {
+            scroll-margin-top: 92px;
+            padding: 82px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .section-heading {
+            display: grid;
+            grid-template-columns: minmax(0, 0.8fr) minmax(280px, 1fr);
+            gap: 32px;
+            align-items: end;
+            margin-bottom: 34px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: clamp(28px, 4vw, 46px);
+            line-height: 1.15;
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .resume-grid {
+            display: grid;
+            grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1fr);
+            gap: 24px;
+        }
+
+        .info-panel,
+        .note-card,
+        .life-card,
+        .plan-item {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--surface);
+        }
+
+        .info-panel {
+            padding: 22px;
+        }
+
+        .info-panel h3,
+        .note-card h3,
+        .life-card h3,
+        .plan-item h3 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            line-height: 1.3;
+        }
+
+        .tag-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .tag {
+            display: inline-flex;
+            min-height: 30px;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0 10px;
+            color: var(--green-deep);
+            background: rgba(47, 111, 94, 0.1);
+            font-size: 13px;
+        }
+
+        .timeline {
+            display: grid;
+            gap: 14px;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 116px minmax(0, 1fr);
+            gap: 18px;
+            border-left: 3px solid var(--green);
+            padding: 18px 0 18px 18px;
+            background: linear-gradient(90deg, rgba(47, 111, 94, 0.08), transparent);
+        }
+
+        .time {
+            color: var(--green-deep);
+            font-weight: 750;
+        }
+
+        .timeline-item h3,
+        .timeline-item p,
+        .info-panel p,
+        .note-card p,
+        .life-card p,
+        .plan-item p {
+            margin: 0;
+        }
+
+        .timeline-item p,
+        .info-panel p,
+        .note-card p,
+        .life-card p,
+        .plan-item p {
+            color: var(--muted);
+        }
+
+        .notes-grid,
+        .life-grid,
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .note-card,
+        .life-card,
+        .plan-item {
+            min-height: 210px;
+            padding: 22px;
+        }
+
+        .note-card {
+            border-top: 4px solid var(--rose);
+        }
+
+        .life-card {
+            border-top: 4px solid var(--gold);
+        }
+
+        .plan-item {
+            border-top: 4px solid var(--blue);
+        }
+
+        .meta {
+            display: inline-flex;
+            margin-bottom: 18px;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .progress {
+            height: 8px;
+            margin-top: 20px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #ebe6dc;
+        }
+
+        .progress span {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: var(--blue);
+        }
+
+        .footer {
+            padding: 34px 0 46px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 840px) {
+            .nav {
+                min-height: auto;
+                padding: 14px 0;
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .menu {
+                justify-content: flex-start;
+            }
+
+            .menu a {
+                padding: 0 11px;
+                font-size: 13px;
+            }
+
+            .hero {
+                min-height: auto;
+                padding-top: 38px;
+            }
+
+            .hero-inner,
+            .section-heading,
+            .resume-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .portrait-wrap {
+                justify-self: start;
+                width: min(100%, 360px);
+            }
+
+            section {
+                scroll-margin-top: 138px;
+                padding: 58px 0;
+            }
+
+            .notes-grid,
+            .life-grid,
+            .plan-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 460px) {
+            .quick-links {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    aaa
+    <header class="site-header">
+        <nav class="nav" aria-label="主菜单">
+            <a class="brand" href="#top" aria-label="返回首页">
+                Wen
+                <span>个人主页</span>
+            </a>
+            <ul class="menu">
+                <li><a href="#resume">个人简历</a></li>
+                <li><a href="#reading">读书笔记</a></li>
+                <li><a href="#life">生活记录</a></li>
+                <li><a href="#planning">个人规划</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="top" class="hero">
+        <div class="hero-inner">
+            <div class="hero-copy">
+                <p class="eyebrow">Hello, welcome to my personal space.</p>
+                <h1>把经历、阅读、生活与计划，整理成持续生长的主页。</h1>
+                <p class="lead">这里用来沉淀个人简历、读书笔记、生活记录和阶段规划。每一次更新，都是给未来的自己留下一份清晰的坐标。</p>
+                <div class="quick-links" aria-label="快捷入口">
+                    <a class="button primary" href="#resume">查看简历</a>
+                    <a class="button secondary" href="#reading">浏览笔记</a>
+                </div>
+            </div>
+            <div class="portrait-wrap" aria-label="主页照片">
+                <figure class="portrait">
+                    <img src="./images/pic1.jpg" alt="个人主页照片">
+                </figure>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section id="resume" aria-labelledby="resume-title">
+            <div class="section-heading">
+                <h2 id="resume-title">个人简历</h2>
+                <p>展示教育经历、工作项目、能力标签与联系方式。把重要经历写清楚，让别人快速理解你正在做什么、擅长什么。</p>
+            </div>
+            <div class="resume-grid">
+                <aside class="info-panel">
+                    <h3>Wen</h3>
+                    <p>前端开发 / 产品实践 / 持续学习者</p>
+                    <div class="tag-list" aria-label="能力标签">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">学习记录</span>
+                    </div>
+                </aside>
+                <div class="timeline" aria-label="经历时间线">
+                    <article class="timeline-item">
+                        <span class="time">现在</span>
+                        <div>
+                            <h3>个人主页搭建</h3>
+                            <p>整理个人介绍、内容栏目与长期规划，形成可持续更新的网站入口。</p>
+                        </div>
+                    </article>
+                    <article class="timeline-item">
+                        <span class="time">近期</span>
+                        <div>
+                            <h3>项目与技能沉淀</h3>
+                            <p>把项目经验拆成问题、方案、结果和复盘，积累可以复用的方法论。</p>
+                        </div>
+                    </article>
+                    <article class="timeline-item">
+                        <span class="time">过往</span>
+                        <div>
+                            <h3>学习与实践</h3>
+                            <p>通过阅读、练习和记录建立个人知识库，让成长路径更加可见。</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="reading" aria-labelledby="reading-title">
+            <div class="section-heading">
+                <h2 id="reading-title">读书笔记</h2>
+                <p>记录一本书带来的问题、观点和行动。笔记不追求很满，重点是留下能再次启发自己的线索。</p>
+            </div>
+            <div class="notes-grid">
+                <article class="note-card">
+                    <span class="meta">阅读中</span>
+                    <h3>《原则》</h3>
+                    <p>关注如何把个人决策过程透明化，用复盘和反馈改进下一次行动。</p>
+                </article>
+                <article class="note-card">
+                    <span class="meta">待读</span>
+                    <h3>技术成长书单</h3>
+                    <p>整理前端工程、用户体验、系统设计相关书目，并按主题持续更新。</p>
+                </article>
+                <article class="note-card">
+                    <span class="meta">摘录</span>
+                    <h3>长期主义</h3>
+                    <p>把有价值的句子转化为自己的语言，再关联到具体的生活和工作场景。</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="life" aria-labelledby="life-title">
+            <div class="section-heading">
+                <h2 id="life-title">生活记录</h2>
+                <p>留住日常里值得回看的片段：一次旅行、一段运动、一张照片，或者某个普通却明亮的下午。</p>
+            </div>
+            <div class="life-grid">
+                <article class="life-card">
+                    <span class="meta">影像</span>
+                    <h3>照片日记</h3>
+                    <p>用图片和短句记录身边的风景，让生活不只停留在相册深处。</p>
+                </article>
+                <article class="life-card">
+                    <span class="meta">习惯</span>
+                    <h3>运动与健康</h3>
+                    <p>记录跑步、睡眠、饮食和能量状态，观察身体给出的真实反馈。</p>
+                </article>
+                <article class="life-card">
+                    <span class="meta">片段</span>
+                    <h3>周末小记</h3>
+                    <p>写下周末做过的事、见过的人、突然冒出来的想法和小小灵感。</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="planning" aria-labelledby="planning-title">
+            <div class="section-heading">
+                <h2 id="planning-title">个人规划</h2>
+                <p>把目标拆成阶段、节奏和可检查的进度。计划不是为了束缚自己，而是为了更稳定地靠近想要的生活。</p>
+            </div>
+            <div class="plan-grid">
+                <article class="plan-item">
+                    <span class="meta">Q1</span>
+                    <h3>完善作品集</h3>
+                    <p>补充项目案例、截图和复盘文字，形成完整的个人展示页。</p>
+                    <div class="progress" aria-label="进度 45%"><span style="width: 45%;"></span></div>
+                </article>
+                <article class="plan-item">
+                    <span class="meta">Q2</span>
+                    <h3>建立阅读系统</h3>
+                    <p>固定阅读节奏，按主题输出笔记，并把观点整理成可检索内容。</p>
+                    <div class="progress" aria-label="进度 30%"><span style="width: 30%;"></span></div>
+                </article>
+                <article class="plan-item">
+                    <span class="meta">长期</span>
+                    <h3>保持公开更新</h3>
+                    <p>每月更新一次主页内容，让经历、思考和计划都保持新鲜。</p>
+                    <div class="progress" aria-label="进度 60%"><span style="width: 60%;"></span></div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© <span id="year">2026</span> Wen. 认真生活，持续记录。</p>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
